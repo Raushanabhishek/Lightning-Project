@@ -1,0 +1,209 @@
+<aura:component controller="ApplicationDetails">
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="appdetails" type="Application__c[]" />
+    <aura:attribute name="partydetails" type="Party__c[]"/>
+    <aura:attribute name="isParties" type="Boolean"/>
+    <aura:attribute name="facilitydetails" type="Facility__c[]"/>
+    <aura:attribute name="isFacilities" type="Boolean"/>
+    <aura:attribute name="Collateraldetails" type="Application_Collateral__c[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div class="slds-box slds-box slds-box_small slds-align_absolute-center" style="background:rgb(21, 137, 238);">
+        <div style=" color:white;">Application Details</div>
+    </div>    
+    <lightning:accordion
+                         allowMultipleSectionsOpen="true"
+                         onsectiontoggle="{! c.handleSectionToggle }">
+        <lightning:accordionSection name="A" label="Application Details">
+            <div class="slds-form--stacked slds-p-around--medium slds-m-bottom--x-small">
+                <div class="slds-form-element">
+                    <div class="slds-grid slds-wrap">
+                        <aura:iteration var= "app" items = "{!v.appdetails}">
+                            <div class="slds-col slds-size_1-of-3" >
+                                
+                                <b class = "font">   <!--lightning:outputField/>Applicant Name :   {!app.Customer__r.Name} </b-->
+                                  Customer :  <lightning:formattedUrl value="{!v.url +'/'+ app.Customer__c}"  label="{!app.Customer__r.Name}" target="_blank" />
+                                </b>
+                                <hr class="line"/>  
+                            </div>
+                            <div class="slds-col slds-size_1-of-3" >
+                                
+                                <b class = "font">   <!--lightning:outputField/>Application No :   {!app.Name} </b-->
+                                 Application No :   <lightning:formattedUrl value="{!v.url +'/'+ app.Id}"  label="{!app.Name}" target="_blank" />
+                                </b>
+                                <hr class="line"/>  
+                            </div>
+                            <div class="slds-col slds-size_1-of-3" >
+                                
+                                <b class = "font">   <lightning:outputField/>Type Of Proposal :   {!app.RecordType.Name} </b>
+                                <hr class="line"/>  
+                            </div>
+                            <div class="slds-col slds-size_1-of-3" >
+                                <b class = "font">   <lightning:outputField/>Application Stage :   {!app.Application_Stage__c} </b>
+                                <hr class="line"/>  
+                            </div>
+                            <div class="slds-col slds-size_1-of-3" >
+                                <b class = "font">   <lightning:outputField/>Sub Stage :   {!app.Sub_Stage__c} </b>
+                                <hr class="line"/>  
+                            </div>
+                            <div class="slds-col slds-size_1-of-3" >
+                                <b class = "font">   <lightning:outputField/>Branch code :   {!app.Customer__r.Branch_Code__c} </b>
+                                <hr class="line"/>  
+                            </div>
+                        </aura:iteration>
+                    </div>
+                </div>
+            </div>
+        </lightning:accordionSection>
+        <lightning:accordionSection name="B" label="Key Parties">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="Name">Party Account Name</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="party Type">party type</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="Cibil score">Cibil Score</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="customer">customer</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.partydetails}" var="party"> 
+                        <tr>
+                            <th scope="row" >
+                                <!--div class="slds-truncate" title="{!party.Name}">{!party.Party_Account__r.Name}</div-->
+                                <li class="minli">
+                                    <a target="_blank" href="{!v.url +'/'+ party.Party_Account__c}">{!party.Party_Account__r.Name}</a>
+                                </li>
+                            </th>
+                            <th scope="row" >
+                                <div class="slds-truncate" title="{!party.genesis_Party_Type__c}">{!party.genesis_Party_Type__c}</div>
+                            </th>
+                            <th scope="row" >
+                                <div class="slds-truncate" title="{!party.CIBIL_Scores__c}">{!party.CIBIL_Scores__c}</div>
+                            </th>
+                            <th scope="row" >
+                                <!--div class="slds-truncate" title="{!party.Customer__c}">{!party.Customer__r.Name}</div-->
+                                <li class="minli">
+                                    <a target="_blank" href="{!v.url +'/'+ party.Customer__c}">{!party.Customer__r.Name}</a>
+                                </li>
+                            </th>
+                        </tr>
+                    </aura:iteration>	
+                </tbody>
+            </table>
+        </lightning:accordionSection>
+        <lightning:accordionSection name="C" label="Facilities">
+            
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="Facility No.">Facility No.</div>
+                        </th>
+                        <!--th scope="col" class="thCss">
+                            <div class="slds-truncate" title="Account Number">Account Number</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="Final Authority Name">Final Authority Name</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="Recommended Limit">Recommended Limit</div>
+                        </th-->
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="requested amount">requested amount</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="purpose of loan">purpose of loan</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="NTB Facility Category">NTB Facility Category</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.facilitydetails}" var="fact"> 
+                        <tr>
+                            <th scope="row" >
+                                <!--div class="slds-truncate" title="{!fact.Name}">{!fact.Name}</div-->
+                                <li class="minli">
+                                    <a target="_blank" href="{!v.url +'/'+ fact.Id}">{!fact.Name}</a>
+                                </li>
+                            </th>
+                            <!--th scope="row" >
+                                <div class="slds-truncate" title="{!fact.Account_Number__c}">{!fact.Account_Number__c}</div>
+                            </th>
+                            <th scope="row" >
+                                <div class="slds-truncate" title="{!fact.Final_Authority_Name__c}">{!fact.Final_Authority_Name__c}</div>
+                            </th>
+                            <th scope="row" >
+                                <div class="slds-truncate" title="{!fact.Recommended_Limit__c}">{!fact.Recommended_Limit__c}</div>
+                            </th-->
+                            <th scope="row" >
+                                <div class="slds-truncate" title="{!fact.Requested_Amount__c}">{!fact.Requested_Amount__c}</div>
+                            </th>
+                            <th scope="row" >
+                                <div class="slds-truncate" title="{!fact.Purpose_of_Loan__c}">{!fact.Purpose_of_Loan__c}</div>
+                            </th>
+                            <th scope="row" >
+                                <div class="slds-truncate" title="{!fact.NTB_Facility_Category__c}">{!fact.NTB_Facility_Category__c}</div>
+                            </th>
+                        </tr>
+                    </aura:iteration>	
+                </tbody>
+            </table>
+        </lightning:accordionSection>
+        <lightning:accordionSection name="D" label="Collateral">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="Name">application Collateral name</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="Name">collateral</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="customer">facility no</div>
+                        </th>
+                        <th scope="col" class="thCss">
+                            <div class="slds-truncate" title="customer">Security type</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.Collateraldetails}" var="call"> 
+                        <tr>
+                            <th scope="row" >
+                                <!--div class="slds-truncate" title="{!call.Name}">{!call.Name}</div-->
+                                <li class="minli">
+                                    <a target="_blank" href="{!v.url +'/'+ call.Id}">{!call.Name}</a>
+                                </li>
+                            </th>
+                            <th scope="row" >
+                                <!--div class="slds-truncate" title="{!call.Collateral__r.Name}">{!call.Collateral__r.Name}</div-->
+                                <li class="minli">
+                                    <a target="_blank" href="{!v.url +'/'+ call.Collateral__c}">{!call.Collateral__r.Name}</a>
+                                </li>
+                            </th>
+                            <th scope="row" >
+                                <!--div class="slds-truncate" title="{!call.Facility__r.Name}">{!call.Facility__r.Name}</div-->
+                                <li class="minli">
+                                    <a target="_blank" href="{!v.url +'/'+ call.Facility__c}">{!call.Facility__r.Name}</a>
+                                </li>
+                            </th>
+                            <th scope="row" >
+                                <div class="slds-truncate" title="{!call.Security_Type__c}">{!call.Security_Type__c}</div>
+                            </th>
+                        </tr>
+                    </aura:iteration>	
+                </tbody>
+            </table>
+        </lightning:accordionSection>
+    </lightning:accordion>
+</aura:component>

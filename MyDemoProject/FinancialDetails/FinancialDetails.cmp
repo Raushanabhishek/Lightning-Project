@@ -1,0 +1,132 @@
+<!-- c:financialDetails-->
+<aura:component controller ="Customer360View" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="listOfCollateral" type="Collateral__c[]"/>
+    <aura:attribute name="listOfDocuments" type="Collateral__c[]"/>
+    <aura:attribute name="acc" type="Account"/>
+    <aura:attribute name="app" type="Application__c"/>
+    <aura:attribute name="accPersonObj" type="Account"/>
+    <aura:attribute name="listOfFacility" type="Facility__c[]"/>
+    <aura:attribute name="listAppDocCat" type="Application_Document_Category__c[]"/>
+    <aura:attribute name="accept" type="List" default="['.jpg', '.jpeg', '.png']"/>
+    <!--aura:attribute name="faciObj" type ="Facility__c" default ="{
+                                                                 'Requested_Amount__c': '',
+                                                                 'Purpose_of_Loan__c': '',
+                                                                 'NTB_Facility_Category__c': ''
+                                                                 }"/ -->
+    <aura:attribute name="ownershipType" type="String" default ="Ownership_Type__c"/>
+    <aura:attribute name="ownershipTypeMap" type="map"/>
+    <aura:attribute name="purposeOfLoanMap" type="map"/>
+    <aura:attribute name="typeOfLoanMap" type="map"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-box slds-box slds-box_small slds-align_absolute-center" style="background:rgb(21, 137, 238);">
+        <div style=" color:white;">Please fill Facility Details</div>
+    </div>
+    <div class="slds-box slds-theme_shade slds-theme_alert-texture">
+        <aura:iteration items="{!v.listOfFacility}" var="faciObj" indexVar="index">
+            <form class="slds-stacked">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="abc" type="Currency" label ="Requested Amount" value="{!faciObj.Requested_Amount__c}" required="true" placeholder="Enter Requested Amount"/>  
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:select aura:id="abc" value="{!faciObj.Purpose_of_Loan__c}" name="" label="Purpose Of Loan" required="true">
+                            <option value="">--None--</option>
+                            <aura:iteration items="{!v.purposeOfLoanMap}" var="purposeOfLoan" indexVar="key">
+                                <option text="{!purposeOfLoan.value}" value="{!purposeOfLoan.key}" selected="{!purposeOfLoan.key==faciObj.Purpose_of_Loan__c}"/>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:select aura:id="abc" value="{!faciObj.NTB_Facility_Category__c}" name="" label="Type Of Loan" required="true">
+                            <option value="">--None--</option>
+                            <aura:iteration items="{!v.typeOfLoanMap}" var="typeOfLoan" indexVar="key">
+                                <option text="{!typeOfLoan.value}" value="{!typeOfLoan.key}" selected="{!typeOfLoan.key== faciObj.NTB_Facility_Category__c}"/>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </form>
+        </aura:iteration>
+        <div class ="slds-align_absolute-center" style="margin:9px">
+            <lightning:button onclick="{!c.addNewFacilityDetail}">
+                <lightning:icon iconName="utility:add" class="slds-icon slds-icon_medium" size="medium" alternativeText="add"/>
+                <span class="slds-assistive-text">Add Icon</span>
+            </lightning:button>
+        </div>
+    </div>
+    <div class="slds-box slds-box slds-box_small slds-align_absolute-center" style="background:rgb(21, 137, 238);">
+        <div style=" color:white;">Please fill Collateral Details</div>
+    </div>
+    <aura:iteration items="{!v.listOfCollateral}" var="item" indexVar="index">
+        <form class="slds-stacked">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="abc" type="Text" label ="Collateral Name" value="{!item.Name}"  placeholder="Enter Name of Collateral" required="true"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="NatureofProperty" type="Text" label ="Nature of Property" value="{!item.Nature_of_Property__c}"  placeholder="Enter Nature of Property"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="abc" type="Currency" label ="Value of Property" value="{!item.Collateral_value__c}"  placeholder="Enter value of Property" required="true"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="OwnerName" type="Text" label ="Owner Name" value="{!item.Owner_Name__c}"  placeholder="Enter Owner Name"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="OwnerAadharNumber" type="Text" label ="Owner Aadhar Number" value="{!item.Owner_Aadhar_Number__c}"  placeholder="Enter Owner Aadhar Number"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="OwnerPanNumber" type="Text" label ="Owner Pan Number" value="{!item.Owner_Pan_Number__c}"  placeholder="Enter Owner Pan Number"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:select aura:id="abc" value="{!item.Ownership_Type__c}" name="" label="Ownership Type" required="true">
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.ownershipTypeMap}" var="ownerShip" indexVar="Key">
+                            <option text="{!ownerShip.value}" value="{!ownerShip.key}" selected="{!ownerShip.key==item.Ownership_Type__c}" />
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:textarea aura:id ="abc" required="true" value="{!item.Collateral_Address__c}" placeholder="Enter the Collateral Address" label="Collateral Address" maxlength="250" messageWhenTooLong="A maximum of 250 characters are allowed in a address." messageWhenValueMissing="An empty address is not allow." />
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="SurveyNumber" type="Text" label ="Survey Number" value="{!item.Survey_Number__c}"  placeholder="Enter Survey Number"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="khataNumber" type="Text" label ="Khata Number" value="{!item.Khata_Number__c}"  placeholder="Enter Khata Number"/>  
+                </lightning:layoutItem>
+            </lightning:layout>
+        </form>
+    </aura:iteration>    
+    <br/>
+    <div class ="slds-align_absolute-center" style="margin:9px">
+        <lightning:button onclick="{!c.addNewCollateralDetail}">
+            <lightning:icon iconName="utility:add" class="slds-icon slds-icon_medium" size="medium" alternativeText="add"/>
+            <span class="slds-assistive-text">Add Icon</span>
+        </lightning:button>
+    </div>    
+    <br/>
+    <br/>
+    <aura:method name="financialDetailsMethod" action="{!c.saveFinancialDetails}" access="public">
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+    <div class="slds-box slds-box slds-box_small slds-align_absolute-center" style="background:rgb(21, 137, 238);">
+        <div style=" color:white;">Please attach documents</div>
+    </div>
+    <div class="slds-box slds-theme_shade slds-theme_alert-texture">
+        <lightning:layout horizontalAlign="space" verticalAlign="center" multipleRows="true">
+        <aura:iteration items="{!v.listAppDocCat}" var="appdoc"> 
+            <lightning:layoutItem flexibility="auto" size="3" padding="around-small">
+                        <lightning:fileUpload  name="{!appdoc.Name}"
+                           label= "{!appdoc.Name}"
+                           multiple="false"
+                           accept="{!v.accept}"                  
+                           recordId="{!appdoc.Id}"
+                           onuploadfinished="{!c.handleUploadFinished }"/> 
+                </lightning:layoutItem>
+            </aura:iteration>
+        </lightning:layout>
+    </div>
+</aura:component>

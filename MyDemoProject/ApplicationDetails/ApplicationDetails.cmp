@@ -1,0 +1,59 @@
+<aura:component controller = "ApplicationDetails" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="TaskDetails" type="Task[]" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div class="slds-box ">
+        <lightning:tabset selectedTabId="one" >
+            <lightning:tab label="Application" id="one">
+                <c:ApplicationTab recordId="{!v.recordId}"/>
+            </lightning:tab>
+            <lightning:tab label="Open Task" id="two">
+                <div class="slds-box slds-box slds-box_small slds-align_absolute-center" style="background:rgb(21, 137, 238);">
+                    <div style=" color:white;">Open Task Details</div>
+                </div>            
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col" class="thCss">
+                                <div class="slds-truncate" title="Name">Subject</div>
+                            </th>
+                            <th scope="col" class="thCss">
+                                <div class="slds-truncate" title="customer">status</div>
+                            </th>
+                            <th scope="col" class="thCss">
+                                <div class="slds-truncate" title="Type">Type</div>
+                            </th>
+                            <th scope="col" class="thCss">
+                                <div class="slds-truncate" title="Due Date">Due Date</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.TaskDetails}" var="task"> 
+                            <tr>
+                                <th scope="row" >
+                                    <div class="slds-truncate" title="{!task.Subject}">{!task.Subject}</div>
+                                </th>
+                                <th scope="row" >
+                                    <div class="slds-truncate" title="{!task.Status}">{!task.Status}</div>
+                                </th>
+                                <th scope="row" >
+                                    <div class="slds-truncate" title="{!task.Type}">{!task.Type}</div>
+                                </th>
+                                <th scope="row" >
+                                    <div class="slds-truncate" title="{!task.ActivityDate}">{!task.ActivityDate}</div>
+                                </th>
+                            </tr>
+                        </aura:iteration>	
+                    </tbody>
+                </table>
+            </lightning:tab>
+            <lightning:tab label="Underwriting Dashboard" id="three">
+                <c:Underwriting_Dashboard recordId="{!v.recordId}"/>
+            </lightning:tab>
+            <lightning:tab label="Financial Report" id="Four">
+                <c:M68C_Dashboard appId="{!v.recordId}"/>
+            </lightning:tab>
+        </lightning:tabset>
+    </div>
+</aura:component>

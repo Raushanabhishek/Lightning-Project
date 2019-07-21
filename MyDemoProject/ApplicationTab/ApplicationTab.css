@@ -1,0 +1,7 @@
+.THIS .line {
+    display: block;
+    margin: 0.5rem 0;
+    border-top: 1px solid rgb(247, 245, 245);
+    height: 3px;
+    clear: both;
+}

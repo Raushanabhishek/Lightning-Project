@@ -1,0 +1,1029 @@
+<aura:component controller = "DetailsTab" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global" >
+    <aura:attribute name="activeSections" type="List" default="two" />
+    <aura:attribute name="activeSectionsMessage" type="String" default="" />
+    <aura:attribute name="accountdetails" type="sObject[]" default= "{
+                                                                     'sObjectType':'Application__c',
+                                                                     }"/>
+    <aura:attribute name="appdetails" type="Application__c[]" default= "{
+                                                                        'sObjectType':'Application__c',
+                                                                        }"/>
+    <aura:attribute name="partydetails" type="Party__c[]" default= "{'sObjectType':'Party__c',
+                                                                    }"/>
+    
+    <aura:attribute name="coBorrower" type="sObject[]" default= "{
+                                                                 'sObjectType':'Party__c',
+                                                                 
+                                                                 
+                                                                 }"/>
+    <aura:attribute name="items" type="Object"/>
+    <aura:attribute  name ="showmodal" type="Boolean" default = "true"/>
+    <aura:attribute  name ="showdetailtab" type="Boolean" default = "false"/>
+    <aura:attribute name="showModal1" type="boolean" default="false" />
+    <aura:attribute name="doc" type="Application_Document_Category__c[]" default="{
+                                                                                  'sObjectType':'Application_Document_Category__c', }"/>
+    <aura:attribute name="recordId" type="Id" />
+    
+    <aura:attribute name="PageHeading" type="String" default="MODAL POPUP" />
+    <aura:attribute name="mydata" type="List"/>
+    <aura:attribute name="accdata" type="List"/>
+    <aura:attribute name="mydata1" type="List"/>
+    <aura:attribute name="accForm" type="Account" default="{'sobjectType' : 'Application__c'}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.loadPrimary}" />
+    <aura:handler event="force:refreshView" action="{!c.loadPrimary}" />
+    
+    <aura:attribute name="CheckboxValue" type="Boolean" default="false" />
+    
+   <aura:if isTrue="{!v.appdetails.Loan_Type__c =='Vehicle Loan'}">
+    <div class="slds-box">
+        
+        
+        
+        <lightning:tabset selectedTabId="one" > 
+            
+            
+            
+            
+            <lightning:tab label="Loan Details" id="two">
+                
+                <lightning:accordion
+                                     allowMultipleSectionsOpen="true"
+                                     onsectiontoggle="{! c.handleSectionToggle }"
+                                     activeSectionName="{! v.activeSections }">
+                    <lightning:accordionSection name="Z" label="Loan details">
+                        
+                        <h3 align="center" class="slds-section-title--divider">Loan Information</h3>
+                        <lightning:button label="Neutral" title="Neutral action" onclick="{! c.edit }"/>
+                        <div class="slds-form--stacked slds-p-around--medium slds-m-bottom--x-small">
+                            <div class="slds-form-element">
+                                <div class="slds-grid slds-wrap">
+                                    <aura:iteration var= "app" items = "{!v.appdetails}">
+                                        
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Loan Application Number:  {!app.Loan_Application_Number__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Loan Product Name:  {!app.Loan_Product_Name__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Date of Sale Agreement:  {!app.Date_Of_Sale_Agreement__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Interest Rate %:  {!app.Interest_Rate__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Payment Frequency:  {!app.Payment_Frequency__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Loan Amount:  {!app.Loan_Amount__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />GMRA Premium Amount:  {!app.GMRA_Premium_Amount__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Term:  {!app.Term_Sanction__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />EMI:  {!app.EMI__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Holiday Period Month:  {!app.Holiday_Period_Months__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Branch name:  {!app.Branch_Name__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Interest Type  :  {!app.Interest_Type__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Final GMRA:  {!app.Final_GMRA__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Loan Amount Sanctioned:  {!app.Loan_Amount_Sanctioned__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Total Loan Amount Sanctioned:  {!app.Total_Loan_Amount_Sanctioned__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Total Repayment Amount:  {!app.Total_Repayment_Amount__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Term Sanction:  {!app.Term_Sanction__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />EMI Sanctioned:  {!app.EMI_Sanctioned__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Legal Charges:  {!app.Legal_Charges__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Cersai Charges:  {!app.Cersai_Charges__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Processing Charges:  {!app.Processing_Charges__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />CIBIL Charges:  {!app.CIBIL_Charges__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            
+                                            <b class = "font">   <lightning:outputField   />Valuation charges:  {!app.Valuation_Charges__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Total Stamp Paper charges:  {!app.Total_Stamp_Paper_Charges__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />CIBIL charges with GST:  {!app.CIBIL_Charges_with_GST__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Legal charges wih GST:  {!app.Legal_Charges_GST__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Processing charges with GST:  {!app.Processing_Charges_with_GST__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Total stamp charges with GST:  {!app.Total_Stamp_Charges_with_GST__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Valuation charges with GST:  {!app.Valuation_Charges_with_GST__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Cersai charges with GST:  {!app.Cersai_Fee_GST__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                    </aura:iteration>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 align="center" class="slds-section-title--divider" >Disburement Information</h3>
+                        <div class="slds-form--stacked slds-p-around--medium slds-m-bottom--x-small">
+                            <div class="slds-form-element">
+                                <aura:iteration items="{!v.appdetails}" var="app" indexVar="index">
+                                    <div class="slds-grid slds-wrap">
+                                        
+                                        <br/>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Date of Sale Agreement:  {!app.Date_Of_Sale_Agreement__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Margin to be paid:  {!app.Margin_To_Be_Paid__c} </b>
+                                            <hr class="line"/>   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Type of Charge:  {!app.Type_of_Charge__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Advance Paid:  {!app.Advance_Paid__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Date of Advance Payment:  {!app.Date_Of_Advance_Payment__c} </b>
+                                            <hr class="line"/> 
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Disbursement Amount:  {!app.Disbursement_Amount__c} </b>
+                                            <hr class="line"/>  
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Date of Disbursement:  {!app.Date_of_Disbursement__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Is Property RERA Compliant ?:  {!app.Is_Property_RERA_Compliant__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Verify Sale Agreement:  {!app.Verify_Sale_Agreement__c} </b>
+                                            <hr class="line"   />   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Verify Construction:  {!app.Verify_Construction__c} </b>
+                                            <hr class="line"/>   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Verify Advance Payment:  {!app.Verify_Advance_Payment__c}</b>
+                                            <hr class="line"  />   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Verify Latest EC :  {!app.Verify_Latest_EC__c} </b>
+                                            <hr class="line"   />   
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Verify Margin Payment:  {!app.Verify_Margin_Payment__c} </b>
+                                            <hr class="line" />   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Verify NOC:  {!app.Verify_NOC__c} </b>
+                                            <hr class="line"/>   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Execute Tripartite Agreement:  {!app.Execute_Tripartite_Agreement__c} </b>
+                                            <hr class="line"/>   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Plan Approval Available:  {!app.Plan_Approval_Available__c} </b>
+                                            <hr class="line" />   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Disbursement Comments:  {!app.Disbursement_Comments__c} </b>
+                                            <hr class="line"   />   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Disbursement CBS Completed:  {!app.Disbursement_CBS_Completed__c} </b>
+                                            <hr class="line"  />   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Disbursement Documentation E sign Compile:  {!app.Disbursement_Documentation_E_sign_Comple__c} </b>
+                                            <hr class="line"  />   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Primary Collateral ID:  {!app.Primary_Collateral_ID__c} </b>
+                                            <hr class="line"   />   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <lightning:outputField   />Loan Account Number:  {!app.Loan_Account_No__c} </b>
+                                            <hr class="line"  />   
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-2" >
+                                            <b class = "font">   <br/> </b>
+                                            <hr class="line"  />   
+                                        </div> 
+                                        
+                                    </div>
+                                    
+                                </aura:iteration>
+                                
+                                
+                            </div>
+                        </div>
+                        
+                    </lightning:accordionSection>
+                </lightning:accordion>
+                
+                
+                <hr class = "line" />
+                <lightning:accordion
+                                     allowMultipleSectionsOpen="true"
+                                     onsectiontoggle="{! c.handleSectionToggle }"
+                                     activeSectionName="{! v.activeSections }">
+                    <lightning:accordionSection name="A" label="Primary Applicant">
+                        
+                        
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col" style="width:34%">
+                                <aura:if isTrue="{!v.accountdetails.length>0}">
+                                    <table style="border-collapse: collapse; text-align:left;"> 
+                                        <thead>
+                                            <tr style="width:100%; line-height: 2.5;background-color:grey">
+                                                
+                                                <th style="width:3.25rem; background-color:grey;width : 16%;">
+                                                    <div class="slds-truncate" title="Name">Name 
+                                                    </div>
+                                                    
+                                                </th>
+                                                <th style="width:16%;">
+                                                    <div class="slds-truncate" title="Site">Bureau Score
+                                                        
+                                                    </div>
+                                                </th>
+                                                <th style="width:16%;">
+                                                    <div class="slds-truncate" title="Billing Address">Party Type
+                                                    </div>
+                                                </th>
+                                                
+                                                <th style="width:16%;">
+                                                    <div class="slds-truncate" title="Active">Active
+                                                    </div>
+                                                </th>
+                                                
+                                                <th style="width:16%;">
+                                                    <div class="slds-truncate" title="Employee Type">Employee Type
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        
+                                        <tr style="width:100%;border-left: 1px solid #ccc;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;background-color:white;"> 
+                                            <aura:iteration items="{!v.accountdetails}" var="schjb" indexVar="index">
+                                                <td class="slds-truncate"><b class = "font">{!schjb.Customer__r.Name}</b></td>
+                                                <td class="slds-truncate"><b class = "font">{!schjb.Customer__r.Bureau_Score__c}</b></td>
+                                                <td class="slds-truncate" ><b class = "font">{!schjb.Customer__r.Customer_Type__c}</b></td>
+                                                <td > <lightning:input type="checkbox" checked="{!schjb.Customer__r.Active__c}"/></td>
+                                                
+                                            </aura:iteration>
+                                            <!--   <aura:iteration items="{!v.partydetails}" var="party" indexVar="index">
+                                                        <td class="slds-truncate" ><b class = "font">{!party.Employment_ypes__c}</b></td>
+                                                        
+                                                        <button type="button" onclick="{!c.showCaseDeleteModal}" id={!case.Id}>
+                                                    </aura:iteration>  -->
+                                            
+                                        </tr>
+                                        
+                                        
+                                    </table>
+                                </aura:if>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        
+                        
+                        
+                        
+                        <aura:if isTrue="{!v.accountdetails.length>0}">
+                            <table style="border-collapse: collapse; text-align:left;"> 
+                                <thead>
+                                    <tr style="width:100%; line-height: 2.5;background-color:grey">
+                                        
+                                        <th style="width:3.25rem; background-color:grey;width : 16%;">
+                                            <div class="slds-truncate" title="Name">Name
+                                            </div>
+                                            
+                                        </th>
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="Site">Company Name
+                                                
+                                            </div>
+                                        </th>
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="Billing Address">Group Company Address
+                                            </div>
+                                        </th>
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="Employee Type">Company Pincode
+                                            </div>
+                                        </th>
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="Active">Company Email
+                                            </div>
+                                        </th>
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="Active">Phone
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                
+                                <aura:iteration items="{!v.accountdetails}" var="schjb" indexVar="index">
+                                    <tr style="width:100%;border-left: 1px solid #ccc;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;background-color:white;"> 
+                                        
+                                        <td class="slds-truncate"><b class = "font">{!schjb.Customer__r.Name}</b></td>
+                                        <td class="slds-truncate" ><b class = "font">{!schjb.Customer__r.Company_Name__c}</b></td>
+                                        <td class="slds-truncate"><b class = "font">{!schjb.Customer__r.Group_Company_Address__c}</b></td>
+                                        <td class="slds-truncate" ><b class = "font">{!schjb.Customer__r.Company_Pincode__c}</b></td>
+                                        <td class="slds-truncate" ><b class = "font">{!schjb.Customer__r.Company_Email__c}</b></td>
+                                        <td class="slds-truncate" ><b class = "font">{!schjb.Customer__r.Phone}</b></td>
+                                        
+                                        
+                                        
+                                        
+                                    </tr>
+                                </aura:iteration>
+                                
+                            </table>
+                        </aura:if>
+                        
+                        <br/>
+                        <br/>
+                        <b style ="font-size : 175%;">  Demographic Details
+                        </b>
+                        <br/>  <br/>
+                        <br/>  
+                        <br/> 
+                        <div class="slds-grid slds-wrap">
+                            <aura:iteration items="{!v.accountdetails}" var="schjb" indexVar="index">
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />CBS Customer ID:  {!schjb.Customer__r.CBS_Customer_ID__c} </b>
+                                    <hr class="line"  />   
+                                </div>
+                                
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">    <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Title__c}"/>Title: {!schjb.Customer__r.Title__c}</b>
+                                    <hr class="line"   />   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">              <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Name}"/>Name: {!schjb.Customer__r.Name} </b>
+                                    <hr class="line"   />   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">              <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Nationality__c}"/> Nationality: {!schjb.Customer__r.Nationality__c}</b>
+                                    <hr  class="line"  />   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">              <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Caste__c}"/> Caste: {!schjb.Customer__r.Caste__c}</b>
+                                    <hr class="line"  />   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">              <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Religion__c}"/>Religion: {!schjb.Customer__r.Religion__c} </b>
+                                    <hr class="line"  />   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">              <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Father_Name__c}"/>Father Name: {!schjb.Customer__r.Father_Name__c} </b>
+                                    <hr class="line"  />   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">              <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Husband_Name__c}"/>Spouse Name: {!schjb.Customer__r.Spouse_Name__c} </b>
+                                    
+                                    <hr  class="line" />   
+                                </div>
+                                
+                                
+                                
+                                
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">              <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Banking_with_us__c}"/>Banking with us: {!schjb.Customer__r.Banking_with_us__c}</b>
+                                    <hr class="line"  />   
+                                </div> 
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">              <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Banking_with_us_since__c}"/>Banking with us since: {!schjb.Customer__r.Banking_with_us_since__c}</b>
+                                    <hr class="line"  />   
+                                </div> 
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">              <lightning:outputField fieldName="Tile" value="{!v.accountdetails.Residential_Status__c}"/>Residential Status: {!schjb.Customer__r.Residential_Status__c} </b>
+                                    <hr  class="line" />   
+                                </div> 
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:input type="checkbox"  label="Is Ex-Service Man:" checked="{!schjb.Customer__r.Is_Ex_Service_Man__c}"/></b>
+                                    
+                                    <hr class="line"  />   
+                                </div> 
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">            <lightning:input type="checkbox"  label="Is Physically Handicapped:" checked="{!schjb.Customer__r.Is_Physically_Handicapped__c}"/></b>
+                                    <hr class="line"   />   
+                                </div> 
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <br/>
+                                    <hr class="line"  />   
+                                </div> 
+                            </aura:iteration>
+                        </div>
+                        <br/>
+                        <br/>
+                        <b style ="font-size : 175%;">  Personal Details
+                        </b>
+                        <br/>      
+                        <br/> 
+                        <br/>      
+                        <br/> 
+                        <div class="slds-grid slds-wrap">
+                            <aura:iteration items="{!v.accountdetails}" var="schjb" indexVar="index">
+                                
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />Date of Birth:  {!schjb.Customer__r.BirthDate__c} </b>
+                                    <hr class="line"  />   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">    <lightning:outputField fieldName="Tile" />Gender: {!schjb.Customer__r.Gender__c}</b>
+                                    <hr  class="line" />   
+                                </div>
+                            </aura:iteration>
+                            
+                        </div>
+                        <br/>
+                        <br/>
+                        <b style ="font-size : 175%;">Identification Details
+                        </b>
+                        <br/>      
+                        <br/> 
+                        <br/>      
+                        <br/> 
+                        <div class="slds-grid slds-wrap">
+                            <aura:iteration items="{!v.accountdetails}" var="schjb" indexVar="index">
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />Voter ID:  {!schjb.Customer__r.VoterId__c} </b>
+                                    <hr  class="line" />   
+                                </div>
+                                
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />Driving License ID:  {!schjb.Customer__r.Driving_License_ID__c} </b>
+                                    <hr  class="line" />   
+                                </div>
+                                
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />PAN Number:  {!schjb.Customer__r.Pan_Number__c} </b>
+                                    <hr  class="line" />   
+                                </div>
+                                
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />Ration Card:  {!schjb.Customer__r.RationCard__c} </b>
+                                    <hr class="line"   />   
+                                </div>
+                                
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />CBS Customer ID:  {!schjb.Customer__r.CBS_Customer_ID__c} </b>
+                                    <hr class="line" />   
+                                </div>
+                                
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />Passport Number:  {!schjb.Customer__r.Passport_Number__c} </b>
+                                    <hr class="line"  />   
+                                </div>
+                                
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />Passport Expiry Date:  {!schjb.Customer__r.passport_Expiry_Date__c} </b>
+                                    <hr  class="line" />   
+                                </div>
+                                
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />Other identification Document:  {!schjb.Customer__r.Other_Identification_Document__c} </b>
+                                    <hr class="line"  />   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />Other identification number:  {!schjb.Customer__r.Other_identification_number__c} </b>
+                                    <hr class="line"  />   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b>  <br/> </b>
+                                    <hr  class="line"/>   
+                                </div>
+                                
+                                
+                                
+                                
+                            </aura:iteration>
+                            <br/>
+                            <br/>
+                            <b style ="font-size : 175%;">  Contact Details
+                            </b>
+                            <br/>      
+                            <br/> 
+                            <br/>      
+                            <br/>  
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <aura:iteration items="{!v.accountdetails}" var="schjb" indexVar="index">
+                                <br/>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">   <lightning:outputField   />Customer phone:  {!schjb.Customer__r.Customer_Phone__c} </b>
+                                    <hr class="line"/>   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2" >
+                                    <b class = "font">    <lightning:outputField fieldName="Tile" />Mobile: {!schjb.Customer__r.Mobile__c}</b>
+                                    <hr class="line"/>   
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        <b style ="font-size : 175%;"> Section20
+                        </b>
+                        <br/>  <br/>
+                        <br/>  
+                        <br/> 
+                        <div class="slds-grid slds-wrap">
+                            <aura:iteration items="{!v.accountdetails}" var="schjb" indexVar="index">
+                                <br/>  <lightning:input type="checkbox"  label="Is Related To KVB / Bank Directors:" checked="{!schjb.Customer__r.Is_Related_To_KVB_Bank_Directors__c}"/>
+                                
+                            </aura:iteration>
+                        </div>
+                    </lightning:accordionSection>
+                    <lightning:accordionSection name="B" label="Co-Applicant">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col" style="width:34%">
+                                
+                                <aura:if isTrue="{!v.coBorrower.length>0}">
+                                    
+                                    <table style="border-collapse: collapse; text-align:left;"> 
+                                        <thead>
+                                            <tr style="width:100%; line-height: 2.5;background-color:grey">
+                                                
+                                                <th style="width:3.25rem; background-color:grey;width : 16%;">
+                                                    <div class="slds-truncate" title="Name"> Full Name 
+                                                    </div>
+                                                    
+                                                </th>
+                                                <th style="width:16%;">
+                                                    <div class="slds-truncate" title="Site">Bureau Score
+                                                        
+                                                    </div>
+                                                </th>
+                                                <th style="width:16%;">
+                                                    <div class="slds-truncate" title="Party Type">Party Type
+                                                    </div>
+                                                </th>
+                                                <th style="width:16%;">
+                                                    <div class="slds-truncate" title="Employee Type">Employee Type
+                                                    </div>
+                                                </th>
+                                                <th style="width:16%;">
+                                                    <div class="slds-truncate" title="Active">Active
+                                                    </div>
+                                                </th>
+                                                <th style="width:16%;">
+                                                    <div class="slds-truncate" title="Active">IsKYC
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        
+                                        <tr style="width:100%;border-left: 1px solid #ccc;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;background-color:white;"> 
+                                            
+                                            <aura:iteration items="{!v.coBorrower}" var="Cb" indexVar="index">
+                                                
+                                                <td class="slds-truncate"><b class = "font">{!Cb.Customer__r.Name}</b></td>
+                                                <td class="slds-truncate"><b class = "font">{!Cb.Customer__r.Bureau_Score__c}</b></td>
+                                                <td class="slds-truncate"><b class = "font">{!Cb.Customer__r.Customer_Type__c}
+                                                    </b></td>
+                                                <td class="slds-truncate"><b></b>{!Cb.Employment_ypes__c}</td>
+                                                <td > <b class = "font"> <lightning:input type="checkbox" checked="{!Cb.Active__c}"/></b></td>
+                                                <td > <b class = "font"> <lightning:input type="checkbox" checked="{!Cb.IsKYC__c}"/></b></td>
+                                            </aura:iteration>
+                                            
+                                            
+                                        </tr>
+                                        
+                                        
+                                    </table>
+                                </aura:if>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        
+                        
+                        
+                        
+                        <aura:if isTrue="{!v.coBorrower.length>0}">
+                            <table style="border-collapse: collapse; text-align:left;"> 
+                                <thead>
+                                    <tr style="width:100%; line-height: 2.5;background-color:grey">
+                                        
+                                        <th style="width:3.25rem; background-color:grey;width : 16%;">
+                                            <div class="slds-truncate" title="Company Name">Company Name
+                                            </div>
+                                            
+                                        </th>
+                                        
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="Final Contactability Score">Final Contactability Score</div>
+                                        </th>
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="Final Identity Score">Final Identity Score
+                                            </div>
+                                        </th>
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="Final Verification Score">Final Verification Score
+                                            </div>
+                                        </th>
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="IDV Status">IDV Status
+                                            </div>
+                                        </th>
+                                        <th style="width:16%;">
+                                            <div class="slds-truncate" title="Reason">Reason
+                                            </div>
+                                        </th>
+                                        
+                                    </tr>
+                                </thead>
+                                
+                                <aura:iteration items="{!v.coBorrower}" var="Cb" indexVar="index">
+                                    <tr style="width:100%;border-left: 1px solid #ccc;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;background-color:white;"> 
+                                        
+                                        
+                                        <td class="slds-truncate" ><b>{!Cb.Customer__r.Company_Name__c}</b></td>
+                                        <td class="slds-truncate"><b>{!Cb.FinalContactabilityScore__c}</b></td>
+                                        <td class="slds-truncate" ><b>{!Cb.FinalIdentityScore__c}</b></td>
+                                        <td class="slds-truncate" ><b>{!Cb.FinalVerificationScore__c}</b></td>
+                                        <td class="slds-truncate" ><b>{!Cb.IDV_Status__c}</b></td>
+                                        <td class="slds-truncate" ><b>{!Cb.Reason__c}</b></td>
+                                        
+                                        
+                                        
+                                    </tr>
+                                </aura:iteration>
+                                
+                            </table>
+                        </aura:if>
+                        
+                        
+                        
+                        
+                    </lightning:accordionSection>
+                    
+                    
+                    <lightning:accordionSection name="C" label="Guarantors">
+                        
+                    </lightning:accordionSection>
+                </lightning:accordion>
+            </lightning:tab>
+            <lightning:tab label="Income Details" id="one"  >
+                <div class="slds-grid slds-wrap">
+                    <aura:iteration items="{!v.accountdetails}" var="schjb" indexVar="index">
+                        <br/>
+                        
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">  <lightning:outputField   />NMI Claimed by Customer:{!schjb.Customer__r.NMI_Claimed_By_Customer__c}</b>
+                            <hr class="line"/>   
+                        </div>
+                        
+                        
+                    </aura:iteration>
+                    
+                    
+                    <aura:iteration items="{!v.partydetails}" var="party" indexVar="index">
+                        
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Average CASA Balance (last 6 months): {!party.Average_CASA_Balance_last_6_months__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Total Cheque Bounces:{!v.party.Total_Cheque_Bounces__c}</b>
+                            <hr class="line"/>   
+                        </div>
+                    </aura:iteration>
+                    
+                </div>
+                
+            </lightning:tab> 
+            
+            
+            
+            <lightning:tab label="FI Verification" id="six">
+                <lightning:card  >
+                    
+                    
+                    
+                    
+                    <div class="slds-grid slds-wrap">
+                        <aura:iteration var= "app" items = "{!v.appdetails}">
+                            
+                            <div class="slds-col slds-size_1-of-2" >
+                                
+                                <b class = "font">   <lightning:outputField   />FI Information:  {!app.FI_Information__c} </b>
+                                <hr class="line"/>   
+                                <b class = "font">   <lightning:outputField   />	FI Final Decision:  {!app.FI_Final_Decision__c} </b>
+                                <hr class="line"/>   
+                            </div>
+                            
+                            <div class="slds-col slds-size_1-of-2" >
+                                
+                                <b class = "font">   <lightning:outputField   />FI Status:  {!app.FI_Status__c} </b>
+                                <hr class="line"/>   
+                                
+                                
+                                
+                                <b class = "font">   <lightning:outputField   />DOO/DM Comments:  {!app.DOO_DM_Comments__c} </b>
+                                <hr class="line"/>   
+                            </div>
+                            
+                            <div class="slds-col slds-size_1-of-2" >
+                                
+                                <b class = "font">   <lightning:outputField   />BM/RLPC Comments:  {!app.BM_RLPC_Comments__c} </b>
+                                <hr class="line"/>   
+                            </div>     
+                            <div class="slds-col slds-size_1-of-2" >
+                                
+                                <b class = "font">   <br/> </b>
+                                <hr class="line"/>   
+                            </div>     
+                            
+                            
+                            
+                        </aura:iteration>
+                    </div>
+                </lightning:card>
+            </lightning:tab>
+            <lightning:tab label="Legal Clearance" id="seven">
+                <div class="slds-grid slds-wrap">
+                    <aura:iteration items="{!v.appdetails}" var="app1" indexVar="index">
+                        <br/>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Visit Date:  {!app1.Visit_Date__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Branch Manager Comments:  {!app1.Branch_Manager_Comments__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Valuer's Name:  {!app1.Valuer_s_Name__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Date of Valuation:  {!app1.Date_Of_Valuation__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Date of Legal Opinion:  {!app1.Date_Of_Legal_Opinion__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Lawyer's Name:  {!app1.Lawyer_s_Name__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                    </aura:iteration>
+                </div>
+            </lightning:tab>
+            
+            <lightning:tab label="MOD Initiation" id="nine">
+                
+                
+                <div class="slds-grid slds-wrap">
+                    <aura:iteration var= "app" items = "{!v.appdetails}">
+                        <br/>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />MOD Branch:  {!app.MOD_Branch__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />MOD Date:  {!app.MOD_Date__c} </b>
+                            <hr class="line"/>   
+                        </div> 
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />MOD Documents :  {!app.MOD_Documents_generated__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Sale Deed Generated:  {!app.Sale_Deed_Collected__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        
+                        
+                    </aura:iteration>     
+                    
+                </div> 
+                
+            </lightning:tab>
+            <lightning:tab label="Si-Emadate Details" id="ten">
+                <div class="slds-grid slds-wrap">
+                    <aura:iteration items="{!v.appdetails}" var="app1" indexVar="index">
+                        <br/>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Application Name:  {!app1.Applicant_Name__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />SI Account Number:  {!app1.SI_Account_Number__c} </b>
+                            <hr class="line"/>   
+                        </div> 
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />SI Transaction ID:  {!app1.SI_Transaction_ID__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <b class = "font">   <lightning:outputField   />Standing Instruction:  {!app1.Standing_Instruction__c} </b>
+                            <hr class="line"/>   
+                        </div>
+                        
+                        
+                        
+                    </aura:iteration>
+                </div> 
+            </lightning:tab>
+            <lightning:tab label="Application Document Category" id="ee">
+                <lightning:tree items="{! v.items }" header="Document"> </lightning:tree>
+                
+            </lightning:tab>
+        </lightning:tabset>
+       
+    </div>
+    </aura:if>
+    
+    
+    
+    
+    
+    
+    
+    <lightning:button label="Create Account PopUp"
+                      iconName="utility:new_window"
+                      iconPosition="left"
+                      variant="brand"
+                      onclick="{!c.newPopup}"
+                      />
+    
+    
+    <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox1" class="slds-modal slds-modal_large">
+        <aura:if isTrue="{!v.showmodal}">
+            <div class="slds-modal__container" style="width: 65%;">
+                
+                
+                <div class="slds-modal__header">
+                    <lightning:icon iconName="standard:first_non_empty"  alternativeText="Click to Close"  disabled="" onclick="{!c.closeNewModal}"  style="margin-left:97%;background-color: grey;"/> 
+                    Customer Primary Information
+                </div>
+                
+                <div class="slds-modal__content slds-p-around--medium">
+                    <aura:iteration items="{!v.accountdetails}" var="af" indexVar="index">   
+                        
+                        <div class="slds-grid slds-p-top_medium">
+                            <div class="slds-size_3-of-12 slds-p-left_xx-large slds-p-horizontal_x-large " >
+                                <b class = "fonttype">    <lightning:outputField   />Name: {!af.Customer__r.Name} </b>
+                                
+                            </div>
+                            <div class="slds-size_3-of-12 slds-p-left_xx-small slds-p-horizontal_x-large " >
+                                <b class = "fonttype">    <lightning:outputField   />Date of Birth: {!af.Customer__r.BirthDate__c} </b>
+                            </div>
+                            <div class="slds-size_3-of-12 slds-p-left_xx-small slds-p-horizontal_x-large " >
+                                <b class = "fonttype">    <lightning:outputField   />PAN : {!af.Customer__r.Pan_Number__c} </b>
+                            </div>
+                            
+                            <div class="slds-size_3-of-12 slds-p-left_xx-small slds-p-horizontal_x-large " >
+                                <b class = "fonttype">    <lightning:outputField   />Aadhar : {!af.Customer__r.Aadhar_Number__c} </b>
+                            </div>
+                            
+                        </div>
+                        <br/><br/><br/>
+                        <div class="slds-grid slds-p-top_x-small">
+                            <div class="slds-size_3-of-12 slds-p-left_xx-large slds-p-horizontal_x-large " >
+                                <b class = "fonttype">    <lightning:outputField   />Email : {!af.Customer__r.Email__c} </b>
+                            </div>
+                            <div class="slds-size_3-of-12 slds-p-left_xx-small slds-p-horizontal_x-large " >
+                                <b class = "fonttype">    <lightning:outputField   />Phone : {!af.Customer__r.Phone__c} </b>
+                                
+                            </div>
+                            
+                            <div class="slds-size_3-of-12 slds-p-left_xx-small slds-p-horizontal_x-large " >
+                                <b class = "fonttype">    <lightning:outputField   />Billing Address : {!af.Customer__r.BillingAddress} </b>
+                                
+                            </div>
+                            <br/><br/><br/>
+                            
+                        </div>
+                    </aura:iteration>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning:button variant="base" label="Next" onclick="{!c.editAccount}" />
+                    
+                </div>
+            </div>
+            
+        </aura:if>    
+    </div>
+    
+    
+    
+    <aura:if isTrue="{!v.showModal1}">
+        <c:CustomerInfoComp recordId = "{!v.recordId}"/>
+    </aura:if>
+    
+    
+    
+    
+</aura:component>

@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<h3>KeyPartiesDetails</h3>
+    <aura:method name="keyPartiesDetailsMethod" action="{!c.saveKeyParties}" access="public">
+    </aura:method>
+    <!-- div style="float: right; margin:9px">
+        <lightning:button variant="brand" label="Next >>" onclick="{!c.saveKeyParties}"/>   
+    </div -->
+</aura:component>

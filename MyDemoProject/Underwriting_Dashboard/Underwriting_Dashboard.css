@@ -1,0 +1,7 @@
+.THIS div .container-outer { 
+    overflow: scroll; 
+    width:100%; 
+}
+.THIS div .container-inner {
+    width: 1000px;
+}

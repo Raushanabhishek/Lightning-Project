@@ -1,0 +1,67 @@
+<aura:component   controller = "DetailsTab" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	  <aura:handler name="init" value="{!this}" action="{!c.myAction}"/> 
+    <aura:attribute name="recordId" type="Id" />
+  
+    <aura:attribute name="accountdetails" type="sObject[]" default= "{
+                                                                     'sObjectType':'Application__c',
+                                                                     }"/>
+    
+    
+    <div class="slds-grid slds-gutters">
+                                    <div class="slds-col" style="width:34%">
+                                        <aura:if isTrue="{!v.accountdetails.length>0}">
+                                            <table style="border-collapse: collapse; text-align:left;"> 
+                                                <thead>
+                                                    <tr style="width:100%; line-height: 2.5;background-color:grey">
+                                                        
+                                                        <th style="width:3.25rem; background-color:grey;width : 16%;">
+                                                            <div class="slds-truncate" title="Name">Name 
+                                                            </div>
+                                                            
+                                                        </th>
+                                                        <th style="width:16%;">
+                                                            <div class="slds-truncate" title="Site">Bureau Score
+                                                                
+                                                            </div>
+                                                        </th>
+                                                        <th style="width:16%;">
+                                                            <div class="slds-truncate" title="Billing Address">Party Type
+                                                            </div>
+                                                        </th>
+                                                        
+                                                        <th style="width:16%;">
+                                                            <div class="slds-truncate" title="Active">Active
+                                                            </div>
+                                                        </th>
+                                                        
+                                                        <th style="width:16%;">
+                                                            <div class="slds-truncate" title="Employee Type">Employee Type
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                
+                                                
+                                                <tr style="width:100%;border-left: 1px solid #ccc;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;background-color:white;"> 
+                                                    <aura:iteration items="{!v.accountdetails}" var="schjb" indexVar="index">
+                                                        <td class="slds-truncate"><b class = "font">{!schjb.Customer__r.Name}</b></td>
+                                                        <td class="slds-truncate"><b class = "font">{!schjb.Customer__r.Bureau_Score__c}</b></td>
+                                                        <td class="slds-truncate" ><b class = "font">{!schjb.Customer__r.Customer_Type__c}</b></td>
+                                                         <td > <lightning:input type="checkbox" checked="{!schjb.Customer__r.Active__c}"/></td>
+                                                           
+                                                    </aura:iteration>
+                                                    <!--   <aura:iteration items="{!v.partydetails}" var="party" indexVar="index">
+                                                        <td class="slds-truncate" ><b class = "font">{!party.Employment_ypes__c}</b></td>
+                                                        
+                                                        <button type="button" onclick="{!c.showCaseDeleteModal}" id={!case.Id}>
+                                                    </aura:iteration>  -->
+                                                    
+                                                </tr>
+                                                
+                                                
+                                            </table>
+                                        </aura:if>
+                                    </div>
+                                </div>
+
+</aura:component>

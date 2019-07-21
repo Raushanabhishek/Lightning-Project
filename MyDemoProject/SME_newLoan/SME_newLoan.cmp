@@ -1,0 +1,28 @@
+<aura:component controller="SME_NewLoan_MainClass" implements="force:appHostable,force:hasRecordId,force:lightningQuickAction">
+    <aura:handler name="init" value="{!this}" action="{!c.myAction}" />
+    <aura:attribute name="custDetails" type="Account" />
+    <aura:attribute name="Applications" type="Object[]" />
+    <aura:attribute name="recordId" type="Id" />
+    <p>{!v.custDetails.Name}</p>
+    
+    <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout">
+        <thead>
+            <tr class="slds-text-heading_label">
+                <th scope="col"><div class="slds-truncate" title="ID">ID</div></th>
+                <th scope="col"><div class="slds-truncate" title="Name">Name</div></th>
+                <th scope="col"><div class="slds-truncate" title="Type">Type</div></th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.Applications}" var="cust">
+                <tr>
+                    <th>{!cust.Id}</th>
+                    <th>{!cust.RecordTypeId}</th>
+                    <th>{!cust.RecordType.DeveloperName}</th>
+                </tr>
+            </aura:iteration>  
+        </tbody>
+    </table>
+    
+    <ui:button class="btn btn-default" press="{!c.createNewApp}">Create New loan</ui:button>
+</aura:component>

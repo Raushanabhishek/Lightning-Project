@@ -1,0 +1,54 @@
+.THIS .slds-tabs_default__nav {
+    background-color: lightsteelblue;
+
+    
+}
+.THIS .slds-boxcDetailsTabcomp {
+border-color: antiquewhite;
+}
+
+.THIS .slds-boxcDetailsTabcomp {
+    background-color: ghostwhite;
+}
+
+.THIS.slds-tabs--default__link  {
+        color: rgb(12, 1, 1);
+}
+
+.THIS .slds-box {
+    padding: 1rem;
+    border-radius: .25rem;
+   border: 1px solid rgb(31, 30, 30);
+    background-color: white;
+}
+.THIS .line {
+    display: block;
+    margin: 0.5rem 0;
+    border-top: 1px solid rgb(247, 245, 245);
+    height: 3px;
+    clear: both;
+}
+.THIS .slds-section-title--divider {
+    background : black;
+    color: rgb(242, 242, 242);
+    
+    font-size: 100%;
+    font-family: 'Salesforce Sans',Arial,sans-serif;
+}
+
+.THIS .font {
+        font-size: 90%;
+
+}
+.THIS .fonttype {
+        font-size: 100%;
+
+}
+.THIS .slds-section__title{
+    background-color: YellowGreen;
+    color: white
+}
+.THIS .slds-modal__header{
+    background-color:#008000;
+    color: white
+}

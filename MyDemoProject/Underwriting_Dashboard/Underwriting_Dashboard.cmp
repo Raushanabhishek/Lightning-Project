@@ -1,0 +1,211 @@
+<!-- Underwriting_Dashboard -->
+<aura:component controller="Underwriting_DashboardCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="app" type="Application__c"/>
+    <aura:attribute name="acc" type="Account" />
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="listoffacilities" type="List"/>
+    <aura:attribute name="allChildfacilityToBeSaved" type="Facility__c[]"/>
+    
+    <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-page-header">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate" title="Credit Underwriting Dashboard">Credit Underwriting Dashboard</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-box slds-box_small slds-align_absolute-center" style ="background:rgb(21, 137, 238);">
+        <div style="color:white;">Borrower Details.</div>	
+    </div>
+    <div class ="slds-box slds-theme_shade slds-theme_alert-texture">
+        <form class="slds_stacked">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <div class="slds-col slds-size_2-of-3" >
+                        <b class = "font">   <lightning:outputField/>Firm Name :   {!v.app.Customer__r.Name} </b>
+                        <hr class="line"/>  
+                    </div>   
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <div class="slds-col slds-size_2-of-3" >
+                        <b class = "font">   <lightning:outputField/>Application Number :   {!v.app.Name} </b>
+                        <hr class="line"/>  
+                    </div>    
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <div class="slds-col slds-size_2-of-3" >
+                        <b class = "font">   <lightning:outputField/>Industry Type :   {!v.app.Customer__r.Industry} </b>
+                        <hr class="line"/>  
+                    </div>    
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <div class="slds-col slds-size_2-of-3" >
+                        <b class = "font">   <lightning:outputField/>Constitution :   {!v.app.Customer__r.Constitution__c} </b>
+                        <hr class="line"/>  
+                    </div>    
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <div class="slds-col slds-size_2-of-3" >
+                        <b class = "font">   <lightning:outputField/>Commercial Rank :   {!v.app.Customer__r.Commercial_Rank__c} </b>
+                        <hr class="line"/>  
+                    </div>   
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <div class="slds-col slds-size_2-of-3" >
+                        <b class = "font">   <lightning:outputField/>Branch Code :   {!v.app.Customer__r.Branch_Code__c} </b>
+                        <hr class="line"/>  
+                    </div>    
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <div class="slds-col slds-size_2-of-3" >
+                        <b class = "font">   <lightning:outputField/>Security Coverage(%) :   {!v.app.Security_Coverage__c} </b>
+                        <hr class="line"/>  
+                    </div>    
+                </lightning:layoutItem>
+            </lightning:layout>
+        </form>    
+    </div>
+    
+    <div class="slds-box slds-box_small slds-align_absolute-center" style ="background:rgb(21, 137, 238);">
+        <div style="color:white;">Facility Details.</div>	
+    </div>
+    <div style="overflow: scroll; width: 140%;">
+        <div style="width: 150%;">
+            <div class ="slds-box slds-theme_shade slds-theme_alert-texture">
+                <form class="slds_stacked">
+                    <aura:iteration items="{!v.listoffacilities}" var="facParentObj" indexVar="index">
+                        <div>
+                            <lightning:layout>
+                                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="slds-col slds-col slds-size_12-of-12" >
+                                                    <lightning:outputField/>Facility : {!facParentObj.Type__c}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-col slds-col slds-size_12-of-12" >
+                                                    <lightning:outputField/>Requested Amount(in Rs.) : {!facParentObj.Requested_Amount__c}
+                                                </div>
+                                            </td>
+                                           
+                                            <td>
+                                                <div class="slds-col slds-col slds-size_12-of-12" >
+                                                    <lightning:outputField/>Existing Rate(%) : {!facParentObj.Existing_Rate__c} 
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-col slds-col slds-size_12-of-12" >
+                                                    <lightning:outputField/>Existing Margin(%) : {!facParentObj.Approved_Margin__c} 
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-col slds-col slds-size_12-of-12" >
+                                                    <lightning:outputField/>Processing Charge(%) : {!facParentObj.Existing_Processing_Charge__c}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>     
+                                </lightning:layoutItem>
+                                <lightning:layoutItem>
+                                    <aura:iteration items="{!facParentObj.Facilities__r}" var="facChildObj" indexVar="index">
+                                        <table>
+                                            <tr>
+                                                <aura:if isTrue="{!facChildObj.Role__c =='BR_MGR_MEDIUM'}">
+                                                    <th>
+                                                        <b class = "font">   <lightning:outputField/> BR_MGR -Recommendation </b>
+                                                    </th>
+                                                    <aura:set attribute="else">
+                                                    <b class = "font">   <lightning:outputField/> {!facChildObj.Role__c} -Recommendation </b>
+                                                	</aura:set>
+                                                </aura:if>
+                                            </tr>
+                                            <tr style="padding: 20px;">
+                                                <td>
+                                                    <div class="slds-col slds-size_3-of-3" >
+                                                        <lightning:input aura:id ="abc" type="number" label ="Limit " value="{!facChildObj.Recommended_Limit__c}" required="true"  formatter="currency" step="0.01" messageWhenBadInput="Required field cannot be empty"/>  
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-col slds-size_3-of-3" >
+                                                        <lightning:input aura:id ="abc" type="number" label ="Rate(%) " value="{!facChildObj.Recommended_Rate__c}" required="true" step="0.1" messageWhenBadInput="Required field cannot be empty"/>  
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-col slds-size_3-of-3" >
+                                                         
+                                                        <lightning:input aura:id ="abc" type="number" label ="Processing fee(%) " value="{!facChildObj.Recommended_Processing_Charge__c}" required="true" step="0.1" messageWhenBadInput="Required field cannot be empty"/>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-col slds-size_3-of-3" >
+                                                        <lightning:input aura:id ="abc" type="number" label ="Margin(%) " value="{!facChildObj.Margin__c}" required="true" step="0.1" messageWhenBadInput="Required field cannot be empty"/>  
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </aura:iteration>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </aura:iteration>
+                </form>    
+            </div>
+        </div>
+    </div>
+    <div class ="slds-align_absolute-center" style="margin:9px">
+        <lightning:button variant="brand" label="Submit" onclick="{!c.submitRecommendation}"/> 
+    </div>
+    
+        <div class="slds-m-around_xx-large">
+        <!--Use aura:if tag to display/hide popup based on isModalOpen value-->  
+        <aura:if isTrue="{!v.isModalOpen}">
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{!c.closeModel}"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    	<p><b>Insufficient Collateral Coverage</b></p>    
+                    </div>
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{!c.closeModel}"/>
+                        
+                        <lightning:button variant="brand"
+                                          label="OK"
+                                          title="OK"
+                                          onclick="{!c.submitApp}"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,7 @@
+<!-- SME_New_Loan_Main_Com_Event -->
+<aura:event type="COMPONENT" description="Event template">
+    <aura:attribute name="accBusinessPrevObj" type="Account"/>
+    <aura:attribute name="accPersonObj" type="Account"/>
+    <aura:attribute name="faciObj" type="Facility__c"/>
+    <aura:attribute name="collateralList" type="Collateral__c[]"/>
+</aura:event>

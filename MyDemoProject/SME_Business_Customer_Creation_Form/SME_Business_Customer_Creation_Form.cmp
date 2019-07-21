@@ -1,0 +1,157 @@
+<!-- c:SME_Business_Customer_Creation_Form -->
+<aura:component controller="Customer360View" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="acc" type ="Account" default="{
+                                                        'sobjectType':'Account', 
+                                                        'Name': '',
+                                                        'Email': '',
+                                                        'Phone': '', 
+                                                        'Industry': '',
+                                                        'Constitution__c':'',
+                                                        'Pan_Number__c':'',
+                                                        'GST_Number__c':'',
+                                                        'CIN_Number__c':'',
+                                                        'TAN_Number__c':'',
+                                                        'Date_of_Incorporation__c':'',
+                                                        'BillingStreet':'',
+                                                        'BillingCity':'',
+                                                        'BillingState':'',
+                                                        'BillingCountry':'',
+                                                        'BillingPostalCode':'',
+                                                        'ShippingStreet':'',
+                                                        'ShippingCity':'',
+                                                        'ShippingState':'',
+                                                        'ShippingCountry':'',
+                                                        'ShippingPostalCode':'',
+                                                        'Branch_Code__c' :''
+                                                        }"/>
+    <aura:attribute name="objectName" type="String" default="Account"/>
+    <aura:attribute name="industryType" type="String" default ="Industry"/>
+    <aura:attribute name="constitutionValue" type="String" default="Constitution__c"/>
+    <aura:attribute name="industryMap" type="Map"/>
+    <aura:attribute name="constitutionMap" type="Map"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:registerEvent name="SME_Business_CmpEvent_Next" type="c:SME_New_Loan_Main_Com_Event" />
+    
+    <div class="slds-box slds-box_small slds-align_absolute-center" style ="background:rgb(21, 137, 238);">
+        <div style="color:white;">Please fill Company Details.</div>	
+    </div>
+    <div class ="slds-box slds-theme_shade slds-theme_alert-texture">
+        <form class="slds_stacked">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="abc" type="Text" label ="Company Name" value="{!v.acc.Name}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter Company Name"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="abc" type="Date" label ="Date of Incorporation" value="{!v.acc.Date_of_IncorporEnteramation__c}" required="true"  messageWhenRangeUnderflow="Required field cannot be empty" Placeholder="Enter Date of Incorporation"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="gstNumber" type="Text" label ="GST Number" value="{!v.acc.GST_Number__c}" required="false"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter GST Number"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="abc" type="Text" label ="PAN Number" value="{!v.acc.Pan_Number__c}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter PAN Number"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:select aura:id="abc" value="{!v.acc.Industry}" name="industryPicklist" label="Industry" required="true" messageWhenValueMissing="select cannot be empty" >
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.industryMap}" var="ind" indexVar="key">
+                            <option text="{!ind.value}" value="{!ind.key}" selected="{!ind.key==v.acc.Industry}" />
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:select aura:id="abc" value="{!v.acc.Constitution__c}" name="constitutionPicklist" label="Constitution" required="true"  messageWhenValueMissing="select cannot be empty">
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.constitutionMap}" var="cons" indexVar="key">
+                            <option text="{!cons.value}" value="{!cons.key}" selected="{!cons.key==v.acc.Constitution__c}" />
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="cinNumber" type="Text" label ="CIN Number" value="{!v.acc.CIN_Number__c}"  Placeholder="Enter CIN Number"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="tanNumber" type="Text" label ="TAN Number" value="{!v.acc.TAN_Number__c}"  Placeholder="Enter TAN Number"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="phoneNumber" type="Phone" label ="Contact Number" value="{!v.acc.Phone}"  Placeholder="Enter Contact Number"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="companyEmail" type="Email" label ="Company Email" value="{!v.acc.Email}"  Placeholder="Enter Company Email"/>  
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                    <lightning:input aura:id ="email" type="Text" label ="Branch Code" value="{!v.acc.Branch_Code__c}"  Placeholder="Enter Branch code"/>  
+                </lightning:layoutItem>
+            </lightning:layout>
+        </form>
+    </div>
+    <div class="slds-box slds-box_small slds-align_absolute-center" style ="background:rgb(21, 137, 238);">
+        <div style="color:white;">Please fill Address Details.</div>	
+    </div>
+    <div class ="slds-box slds-theme_shade slds-theme_alert-texture;slds-size_1-of-2">
+        <!-- form class="slds-horizontal slds-grid">
+            <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                <div><h3>Registered Office Address</h3></div>
+            </div>
+            
+        </form -->
+        <form class="slds-horizontal slds-grid;slds-box">
+            <table>
+                <tr>
+                    <td>
+                        <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                            <div><h3>Registered Office Address</h3></div>
+                        </div>
+                        <div class="slds-box slds-box_small">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="Street" value="{!v.acc.BillingStreet}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your permanent Street"/>  
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="City" value="{!v.acc.BillingCity}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your permanent City"/>  
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="State" value="{!v.acc.BillingState}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your permanent State"/>  
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="Country" value="{!v.acc.BillingCountry}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your permanent Country"/>  
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="Pin code" value="{!v.acc.BillingPostalCode}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your Pin Code"/>  
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                            <p class="slds-horizontal-p_small">Corporate Office Address</p>
+                        </div>
+                        <div class="slds-box slds-box_small">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="Street" value="{!v.acc.ShippingStreet}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your Residential Street"/>  
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="City" value="{!v.acc.ShippingCity}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your Residential City"/>  
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="State" value="{!v.acc.ShippingState}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your Residential State"/>  
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="Country" value="{!v.acc.ShippingCountry}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your Residential Country"/>  
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                    <lightning:input aura:id ="abc" type="Text" label ="Pin code" value="{!v.acc.ShippingPostalCode}" required="true"  messageWhenBadInput="Required field cannot be empty" Placeholder="Enter your Pin Code"/>  
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </td>
+                </tr>
+                
+            </table>
+        </form>
+    </div>
+    <aura:method name="customerDetailsMethod" action="{!c.saveAccountDetails}" access="public">
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+</aura:component>

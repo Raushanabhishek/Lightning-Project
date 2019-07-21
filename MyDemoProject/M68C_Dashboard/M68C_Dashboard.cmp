@@ -1,0 +1,93 @@
+<aura:component controller="ApplicationDetails" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="appId" type="String"/>
+    <aura:attribute name="m68cList" type="M68_Balance_Sheet_Analysis__c[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+     <div class="slds-box slds-box slds-box_small slds-align_absolute-center" style="background:rgb(21, 137, 238);">
+        <div style=" color:white;">Financial Details</div>
+    </div>
+    <form class="slds_stacked">
+        <aura:iteration items="{!v.m68cList}" var="m68cObj" indexVar="index">
+            <div class="slds-box slds-box_xx-small" style="background:rgb(21, 137, 238);">
+                <div class ="slds-text-align_center" style=" color:white;"> Fiscal Year :{!m68cObj.Fiscal_Year__c } ({!m68cObj.Financial_type__c})</div>
+                <!-- div class ="slds-text-align_right" style=" color:white;">Financial Type: {!m68cObj.Financial_type__c}</div -->
+             </div>	   
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/>Customer : <span class="slds-text-color_success">{!m68cObj.Account__r.Name }</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Data Source: <span class="slds-text-color_success">{!m68cObj.Data_Source__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <!--lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Financial Type: {!m68cObj.Financial_type__c}
+                        </div>
+                    </lightning:layoutItem -->
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Total Current Liabilities: <span class="slds-text-color_success">{!m68cObj.Total_Current_Liabilities__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Total Current Assests: <span class="slds-text-color_success">{!m68cObj.Total_Current_Assets__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Total Term Liabilities: <span class="slds-text-color_success">{!m68cObj.Total_Term_Liabilities__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Total Fixed Assets: <span class="slds-text-color_success">{!m68cObj.Total_Fixed_Assets__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Total Net Worth: <span class="slds-text-color_success">{!m68cObj.Total_Net_Worth__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Total Non Current Assets: <span class="slds-text-color_success">{!m68cObj.Total_Non_Current_Assets__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Total Intangibal Assets: <span class="slds-text-color_success">{!m68cObj.Total_Intangible_Assets__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Total Tangibal Net Worth: <span class="slds-text-color_success"> {!m68cObj.Tangible_Net_Worth__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Net Working Capital: <span class="slds-text-color_success">{!m68cObj.Net_Working_Capital__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Net Profit Margin(%): <span class="slds-text-color_success">{!m68cObj.Net_Profit_Margin__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Cash Profit: <span class="slds-text-color_success">{!m68cObj.Cash_profit__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <div class="slds-col slds-col slds-size_12-of-12" >
+                            <lightning:outputField/> Stock Turnover Ratio(%): <span class="slds-text-color_success"> {!m68cObj.Stock_Turnover_Ratio__c}</span>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>    
+        </aura:iteration>    
+    </form>    
+</aura:component>

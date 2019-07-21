@@ -1,0 +1,145 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="Customer360View" >
+    
+    <!-- aura:attribute name="contactAttr" type="Account"/ -->
+    <aura:attribute name="PartiesList" type="Account[]"/>
+    <aura:attribute name="businessAccount" type="Account"/>
+    <aura:attribute name="app" type="Application__c"/>
+    <aura:attribute name="partyTypeMap" type="map"/>
+    <aura:attribute name="partyGenderMap" type="map"/>
+     <aura:attribute name="partyMaritalMap" type="map"/>
+    <aura:attribute name="isShow" type="boolean" default="true"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:if isTrue="{!v.isShow}">
+        <div class="slds-box slds-box_small slds-align_absolute-center" style ="background:rgb(21, 137, 238);">
+            <div style="color:white;">Please fill Key Party Details.</div>	
+        </div>
+    </aura:if>
+    <aura:iteration items="{!v.PartiesList}" var="partiesObj" indexVar="index">
+        <div class="slds-box slds-box_small slds-align_absolute-center" style ="background:rgb(21, 137, 238);">
+            <div style="color:white;">Please fill Key Party Details.</div>	
+        </div>
+        <div class="slds-box slds-theme_shade slds-theme_alert-texture">
+            <form class="slds-stacked">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="keypartyrequred" type="Text" label ="First Name" value="{!partiesObj.FirstName}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter First Name"/>  
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="keypartyrequred" type="text" label ="Last Name" value="{!partiesObj.LastName}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter Last Name"/>  
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="keypartyrequred" type="Email" label ="Email" value="{!partiesObj.Email}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter Email Id"/>  
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="keypartyrequred" type="Text" label ="PAN Number" value="{!partiesObj.Pan_Number__c}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter PAN Number"/>  
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="keypartyrequred" type="Text" label ="Aadhar Number" value="{!partiesObj.Aadhar_Number__c}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter Aadhar Number"/>  
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:select aura:id="keypartyrequred" value="{!partiesObj.Party_Type__c}" name="" label="Party Type" required="true" messageWhenValueMissing="Choose one!">
+                            <option value="">--None--</option>
+                            <aura:iteration items="{!v.partyTypeMap}" var="partyType" indexVar="key">
+                                <option text="{!partyType.value}" value="{!partyType.key}" selected="{!partyType.key==partiesObj.Party_Type__c}"/>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="fatherName" type="Text" label ="Father's /Husband's Name" value="{!partiesObj.FatherName__c}"  placeholder="Enter Father's Name/Husband Name"/>  
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <!-- lightning:input aura:id ="" type="text" label ="Martial Status" value="{!v.partiesObj.Marital_Status__c}"  placeholder="Enter Martial status"/ -->
+                        <lightning:select aura:id="keypartyrequred" value="{!partiesObj.Marital_Status__c}" name="" label="Martial Status" required="true" messageWhenValueMissing="Choose one!">
+                            <option value="">--None--</option>
+                            <aura:iteration items="{!v.partyMaritalMap}" var="partyMarital" indexVar="key">
+                                <option text="{!partyMarital.value}" value="{!partyMarital.key}" selected="{!partyMarital.key==partiesObj.Marital_Status__c}"/>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="" type="Date" label ="Date of Birth" value="{!partiesObj.Birthdate}"  placeholder="Enter Date of birth"/>  
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="educationQual" type="text" label ="Education Qualification" value="{!partiesObj.Education_Qualification__c}"  placeholder="Enter Education"/>  
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <!-- lightning:input aura:id ="" type="text" label ="Gender" value="{!v.partiesObj.Gender__c}"  placeholder="Enter Gender"/ -->
+                        <lightning:select aura:id="keypartyrequred" value="{!partiesObj.Gender__c}" name="" label="Gender" required="true" messageWhenValueMissing="Choose one!">
+                            <option value="">--None--</option>
+                            <aura:iteration items="{!v.partyGenderMap}" var="partyGender" indexVar="key">
+                                <option text="{!partyGender.value}" value="{!partyGender.key}" selected="{!partyGender.key==partiesObj.Gender__c}"/>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="4" padding="around-small">
+                        <lightning:input aura:id ="keypartyrequred" type="number" label ="Mobile Number" value="{!partiesObj.Mobile}"  placeholder="Enter Mobile Number" required="true" messageWhenBadInput="This field cannot be blank"/>  
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </form>
+        </div>
+        <div class="slds-box slds-box_small slds-align_absolute-center" style ="background:rgb(21, 137, 238);">
+            <div style="color:white;">Please fill Address Details.</div>	
+        </div>
+        <div class ="slds-box slds-theme_shade slds-theme_alert-texture">
+            <form class="slds-horizontal slds-grid">
+                <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                    <div><h3>Residential Address</h3></div>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                    <p class="slds-horizontal-p_small">Permanent Address</p>
+                </div>
+            </form>
+            <lightning:layout multipleRows="true">
+                <form class="slds-horizontal slds-grid">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="Street" value="{!partiesObj.MailingStreet}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your permanent Street"/>  
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="City" value="{!partiesObj.MailingCity}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your permanent City"/>  
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="State" value="{!partiesObj.MailingState}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your permanent State"/>  
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="Country" value="{!partiesObj.MailingCountry}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your permanent Country"/>  
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="Pin code" value="{!partiesObj.MailingPostalCode}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your Pin Code"/>  
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="Street" value="{!partiesObj.OtherStreet}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your Residential Street"/>  
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="City" value="{!partiesObj.OtherCity}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your Residential City"/>  
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="State" value="{!partiesObj.OtherState}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your Residential State"/>  
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="Country" value="{!partiesObj.OtherCountry}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your Residential Country"/>  
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" padding="around-small">
+                                <lightning:input aura:id ="keypartyrequred" type="Text" label ="Pin code" value="{!partiesObj.OtherPostalCode}" required="true" messageWhenBadInput="This field cannot be blank" placeholder="Enter your Pin Code"/>  
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </form>
+            </lightning:layout>
+        </div>
+    </aura:iteration>
+    <div class ="slds-align_absolute-center" style="margin:9px">
+        <lightning:button onclick="{!c.addNewParties}">
+            <lightning:icon iconName="utility:add" class="slds-icon slds-icon_medium" size="medium" alternativeText="add"/>
+            <span class="slds-assistive-text">Add Icon</span>
+        </lightning:button>
+    </div>
+    <aura:method name="keyPartiesDetailsMethod" action="{!c.insertORUpdateParties}" access="public">
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+</aura:component>
